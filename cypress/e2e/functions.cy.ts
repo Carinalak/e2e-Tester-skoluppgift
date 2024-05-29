@@ -1,7 +1,11 @@
 describe('Movie search and sort', () => {
+
+  // Assign
+  beforeEach(() => {
+    cy.visit('http://localhost:5173');
+  });
+
   it('searches for movies and sorts results', () => {
-    // Assign
-    cy.visit("http://localhost:5173");
 
     // Act
     cy.get("input#searchText").type("ghost");
@@ -10,13 +14,10 @@ describe('Movie search and sort', () => {
     //Assert
     cy.get('#movie-container')
     .should("have.length", 1)
-    //.should("have.text", "ghost");
   });
 
 
   it('should sort movies correctly after searching', () => {
-    // Assign
-    cy.visit("http://localhost:5173");
 
     // Act
     cy.get("input#searchText").type("ghost");
@@ -43,6 +44,7 @@ describe('Movie search and sort', () => {
     });
     
   });
+  
 
 });
 
