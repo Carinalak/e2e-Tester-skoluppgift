@@ -1,0 +1,10 @@
+
+  {
+    "movies": [
+      { "imdbID": "1", "Title": "Ghostbusters", "Year": "1984", "Type": "movie", "Poster": "url1" },
+      { "imdbID": "2", "Title": "Ghostbusters II", "Year": "1989", "Type": "movie", "Poster": "url2" },
+      { "imdbID": "3", "Title": "Ghost", "Year": "1990", "Type": "movie", "Poster": "url3" }
+    ]
+  }
+  
+  
