@@ -11,5 +11,5 @@ export const getData = async (searchText: string): Promise<IMovie[]> => {
     .catch(() => {
       return [];
     });
+    
 };
-
