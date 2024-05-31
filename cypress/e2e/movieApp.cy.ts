@@ -10,7 +10,7 @@ describe("Real API call - testing", () => {
   it("searches for movies and displays results", () => {
 
     // Act
-    cy.get("input#searchText").type("ghost");
+    cy.get("input#searchText").type("fame");
     cy.get("button#search").click();
 
     //Assert
@@ -75,7 +75,7 @@ describe("Real API call - testing", () => {
   it("searches for movies and sorts results in ascending order", () => {
     
     // Act
-    cy.get("input#searchText").type("fame");
+    cy.get("input#searchText").type("ghost");
     cy.get("button#search").click();
 
     cy.get("#movie-container .movie").should("have.length.greaterThan", 0)
@@ -89,17 +89,6 @@ describe("Real API call - testing", () => {
     expect(titles).to.deep.equal(sortedTitles);
     });
   });
-  /*
-  it("Should display an error message when the server returns a 500 status code", () => {
-   
-    cy.get("getMoviesError");
-
-    cy.get("form#searchForm").within(() => {
-      cy.get("input#searchText").type("Ghost");
-      cy.get("button#search").click();
-    });
-  });
-  */
 });
 
 // ------------------------------------- Mocked API call - testing ---------------------------------------//
@@ -117,8 +106,7 @@ describe("Mocked API call testing", () => {
         Search: [
           { Title: "Ghostbusters2", Year: "2012", Type: "movie", Poster: "url2" },
           { Title: "Ghostbusters1", Year: "2011", Type: "movie", Poster: "url1" },
-          { Title: "Ghostbusters3", Year: "2013", Type: "movie", Poster: "url3" },
-          
+          { Title: "Ghostbusters3", Year: "2013", Type: "movie", Poster: "url3" },  
         ],
       },
     }).as("getMovies");
@@ -189,23 +177,18 @@ describe("Mocked API call testing", () => {
         Search: [
           { Title: "Ghostbusters2", Year: "2012", Type: "movie", Poster: "url2" },
           { Title: "Ghostbusters1", Year: "2011", Type: "movie", Poster: "url1" },
-          { Title: "Ghostbusters3", Year: "2013", Type: "movie", Poster: "url3" },
-          
+          { Title: "Ghostbusters3", Year: "2013", Type: "movie", Poster: "url3" }, 
         ],
       },
     }).as("getMovies");
 
-    // Act
     cy.get("input#searchText").type("ghost");
     cy.get("button#search").click();
     cy.wait("@getMovies");
 
-    // Assert
     cy.get("#movie-container .movie").should("have.length.greaterThan", 0);
-
     cy.get("button#sortDesc").click();
 
-    // Assert
     cy.get("#movie-container .movie h3").should(($titles) => {
     const titles = $titles.map((i, el) => Cypress.$(el).text().trim()).get();
     const sortedTitles = [...titles].sort((b, a) => a.localeCompare(a));
@@ -222,12 +205,10 @@ describe("Mocked API call testing", () => {
           { Title: "Ghostbusters2", Year: "2012", Type: "movie", Poster: "url2" },
           { Title: "Ghostbusters1", Year: "2011", Type: "movie", Poster: "url1" },
           { Title: "Ghostbusters3", Year: "2013", Type: "movie", Poster: "url3" },
-          
         ],
       },
     }).as("getMovies");
 
-    // Act
     cy.get("input#searchText").type("ghost");
     cy.get("button#search").click();
     cy.wait("@getMovies");
@@ -235,7 +216,6 @@ describe("Mocked API call testing", () => {
     cy.get("#movie-container .movie").should("have.length.greaterThan", 0);
     cy.get("button#sortAsc").click();
 
-    // Assert
     cy.get("#movie-container .movie h3").should(($titles) => {
     const titles = $titles.map((i, el) => Cypress.$(el).text().trim()).get();
     const sortedTitles = [...titles].sort((a, b) => a.localeCompare(b));
@@ -260,131 +240,3 @@ describe("Mocked API call testing", () => {
   });
 
 });
-
-
-
-
-// ------------------------------------- Original - blandat mock och riktig - testing ---------------------------------------//
-describe("Mocked and original API call testing", () => {
-  
-  beforeEach(() => {
-    // Assign
-    cy.visit("http://localhost:5173");
-  });
-  
-  it("searches for movies and shows results", () => {
-
-    
-    // Act
-    cy.get("input#searchText").type("ghost");
-    cy.get("button#search").click();
-
-    //Assert
-    cy.get("#movie-container")
-    .should("have.length", 1);
-  });
-
-  it("Should response when input is empty", () => {
-    // Assign
-
-    // Act
-    cy.get("input#searchText").type(" ")
-    cy.get("button#search").click();
-
-    //Assert
-    cy.get("#movie-container").should("contain", "Inga sökresultat att visa");
-   
-  });
-  
-  it("Should response when search is not found", () => {
-    // Assign
-  
-    // Act
-    cy.get("input#searchText").type("gfadfg")
-    cy.get("button#search").click();
-
-    //Assert
-    cy.get("#movie-container").should("contain", "Inga sökresultat att visa");
-   
-  });
-
-  it("searches for movies and sorts results in descending order", () => {
-    
-    cy.intercept("GET", "http://omdbapi.com/*", {
-      statusCode: 200,
-      body: {
-        Search: [
-          { Title: "Ghostbusters2", Year: "2012", Type: "movie", Poster: "url2" },
-          { Title: "Ghostbusters1", Year: "2011", Type: "movie", Poster: "url1" },
-          { Title: "Ghostbusters3", Year: "2013", Type: "movie", Poster: "url3" },
-          
-        ],
-      },
-    }).as("getMovies");
-
-    // Act
-    cy.get("input#searchText").type("ghost");
-    cy.get("button#search").click();
-    cy.wait("@getMovies");
-
-    // Assert
-    cy.get("#movie-container .movie").should("have.length.greaterThan", 0);
-
-    cy.get("button#sortDesc").click();
-
-    // Assert
-    cy.get("#movie-container .movie h3").should(($titles) => {
-    const titles = $titles.map((i, el) => Cypress.$(el).text().trim()).get();
-    const sortedTitles = [...titles].sort((b, a) => a.localeCompare(a));
-    expect(titles).to.deep.equal(sortedTitles);
-    });
-  });
-
-  it("searches for movies and sorts results in ascending order", () => {
-    
-    cy.intercept("GET", "http://omdbapi.com/*", {
-      statusCode: 200,
-      body: {
-        Search: [
-          { Title: "Ghostbusters2", Year: "2012", Type: "movie", Poster: "url2" },
-          { Title: "Ghostbusters1", Year: "2011", Type: "movie", Poster: "url1" },
-          { Title: "Ghostbusters3", Year: "2013", Type: "movie", Poster: "url3" },
-          
-        ],
-      },
-    }).as("getMovies");
-
-    // Act
-    cy.get("input#searchText").type("ghost");
-    cy.get("button#search").click();
-    cy.wait("@getMovies");
-
-    cy.get("#movie-container .movie").should("have.length.greaterThan", 0);
-    cy.get("button#sortAsc").click();
-
-    // Assert
-    cy.get("#movie-container .movie h3").should(($titles) => {
-    const titles = $titles.map((i, el) => Cypress.$(el).text().trim()).get();
-    const sortedTitles = [...titles].sort((a, b) => a.localeCompare(b));
-    expect(titles).to.deep.equal(sortedTitles);
-    });
-  });
-  
-  it("Should display an error message when the server returns a 500 status code", () => {
-    cy.intercept("GET", "http://omdbapi.com/*", {
-      statusCode: 500,
-      body: "Internal Server Error"
-    }).as("getMoviesError");
-
-    cy.get("form#searchForm").within(() => {
-      cy.get("input#searchText").type("Ghost");
-      cy.get("button#search").click();
-    });
-
-    cy.wait("@getMoviesError");
-
-    cy.get("#movie-container").should("contain", "Inga sökresultat att visa");
-  });
-
-});
-
