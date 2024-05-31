@@ -7,15 +7,26 @@ describe("Real API call - testing", () => {
     cy.visit("http://localhost:5173");
   });
   
-  it("searches for movies and shows results", () => {
+  it("searches for movies and displays results", () => {
 
     // Act
     cy.get("input#searchText").type("ghost");
     cy.get("button#search").click();
 
     //Assert
-    cy.get("#movie-container")
-    .should("have.length", 1);
+    cy.get("#movie-container .movie h3").should("have.length.greaterThan", 0);
+  });
+
+  it("Should response when input is empty", () => {
+    // Assign
+
+    // Act
+    cy.get("input#searchText").clear();
+    cy.get("button#search").click();
+
+    //Assert
+    cy.get("#movie-container").should("contain", "Inga sökresultat att visa");
+   
   });
 
   it("Should response when input contains a space", () => {
@@ -30,17 +41,7 @@ describe("Real API call - testing", () => {
    
   });
 
-  it("Should response when input is empty", () => {
-    // Assign
 
-    // Act
-    cy.get("input#searchText").clear();
-    cy.get("button#search").click();
-
-    //Assert
-    cy.get("#movie-container").should("contain", "Inga sökresultat att visa");
-   
-  });
   
   it("Should response when search is not found", () => {
     // Assign
@@ -70,11 +71,11 @@ describe("Real API call - testing", () => {
     expect(titles).to.deep.equal(sortedTitles);
     });
   });
-/*
+
   it("searches for movies and sorts results in ascending order", () => {
     
     // Act
-    cy.get("input#searchText").type("ghost");
+    cy.get("input#searchText").type("fame");
     cy.get("button#search").click();
 
     cy.get("#movie-container .movie").should("have.length.greaterThan", 0)
@@ -84,10 +85,10 @@ describe("Real API call - testing", () => {
     // Assert
     cy.get("#movie-container .movie h3").should(($titles) => {
     const titles = $titles.map((i, el) => Cypress.$(el).text().trim()).get();
-    const sortedTitles = [...titles].sort((a, b) => a.localeCompare(b));
+    const sortedTitles = [...titles].sort((a, b) => b.localeCompare(b));
     expect(titles).to.deep.equal(sortedTitles);
     });
-  });*/
+  });
   /*
   it("Should display an error message when the server returns a 500 status code", () => {
    
@@ -170,7 +171,7 @@ describe("Mocked API call testing", () => {
         Search: [],
       },
     }).as("getMovies");
-    
+
     // Act
     cy.get("input#searchText").type("gfadfg")
     cy.get("button#search").click();
