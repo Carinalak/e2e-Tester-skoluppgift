@@ -1,8 +1,7 @@
-//import { IApiResponse } from "./models/IApiResponse";
 import { movieSort } from "./functions";
 import { IMovie } from "./models/Movie";
 import { getData } from "./services/movieService";
-//import { IOmdbResponse } from "./models/IOmdbResponse";
+
 
 let movies: IMovie[] = [];
 

@@ -18,7 +18,6 @@ describe("Real API call - testing", () => {
   });
 
   it("Should response when input is empty", () => {
-    // Assign
 
     // Act
     cy.get("input#searchText").clear();
@@ -30,7 +29,6 @@ describe("Real API call - testing", () => {
   });
 
   it("Should response when input contains a space", () => {
-    // Assign
 
     // Act
     cy.get("input#searchText").type(" ")
@@ -41,10 +39,7 @@ describe("Real API call - testing", () => {
    
   });
 
-
-  
   it("Should response when search is not found", () => {
-    // Assign
   
     // Act
     cy.get("input#searchText").type("gfadfg")
