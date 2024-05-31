@@ -87,7 +87,7 @@ describe("Real API call - testing", () => {
 });
 
 // ------------------------------------- Mocked API call - testing ---------------------------------------//
-describe("Mocked API call testing", () => {
+describe("Mocked API call - testing", () => {
   
   beforeEach(() => {
     // Assign
